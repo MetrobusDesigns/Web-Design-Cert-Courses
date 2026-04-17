@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<!-- DOCTYPE tells the browser this is an HTML5 document -->
+
+<html lang="en">
+<!-- The <html> tag is the root element. lang="en" tells search engines and screen readers the language -->
+
+<head>
+  <!-- The <head> contains metadata — info about the page, not visible content -->
+
+  <meta charset="UTF-8" />
+  <!-- charset="UTF-8" supports all characters, symbols, and emoji -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- This meta tag makes the page responsive on mobile devices.
+       width=device-width: match the screen width
+       initial-scale=1.0: don't zoom in or out on load -->
+
+  <meta name="description" content="A practice HTML & CSS reference page with comments." />
+  <!-- Description shown in search engine results -->
+
+  <title>HTML & CSS Practice Page</title>
+  <!-- The browser tab title -->
+
+  <style>
+    /* ============================================================
+       CSS BASICS
+       Styles go inside <style> tags in the <head>.
+       You can also link an external file: <link rel="stylesheet" href="styles.css">
+       ============================================================ */
+
+    /* --- CSS RESET / BASE STYLES ---
+       Browsers add default margin/padding to elements.
+       This zeroes it out so you start with a clean slate. */
+    * {
+      box-sizing: border-box; /* padding/border are INCLUDED in width calculations */
+      margin: 0;
+      padding: 0;
+    }
+
+    /* --- CUSTOM PROPERTIES (CSS Variables) ---
+       Define reusable values with --name, use them with var(--name) */
+    :root {
+      --color-primary: #3b82f6;   /* blue */
+      --color-accent:  #10b981;   /* green */
+      --color-dark:    #1e293b;   /* near-black */
+      --color-light:   #f1f5f9;   /* off-white */
+      --color-white:   #ffffff;
+      --color-muted:   #64748b;   /* gray text */
+      --font-main: 'Segoe UI', system-ui, sans-serif;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    /* --- BODY ---
+       Sets defaults that cascade down to child elements */
+    body {
+      font-family: var(--font-main); /* use the variable defined above */
+      background-color: var(--color-light);
+      color: var(--color-dark);
+      line-height: 1.6;            /* comfortable reading spacing */
+    }
+
+    /* ============================================================
+       LAYOUT: using Flexbox for the nav and cards, CSS Grid for the main layout
+       ============================================================ */
+
+    /* --- HEADER & NAV --- */
+    header {
+      background-color: var(--color-dark);
+      color: var(--color-white);
+      padding: 0 2rem;             /* shorthand: top/bottom = 0, left/right = 2rem */
+    }
+
+    nav {
+      display: flex;               /* Flexbox: children sit in a row by default */
+      align-items: center;         /* vertically center items */
+      justify-content: space-between; /* push logo left, links right */
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--color-white);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      list-style: none;            /* remove bullet points */
+      display: flex;
+      gap: 1.5rem;                 /* space between flex children */
+    }
+
+    .nav-links a {
+      color: var(--color-light);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;     /* smooth color change on hover */
+    }
+
+    /* --- PSEUDO-CLASS: :hover ---
+       Applies styles when the user hovers over an element */
+    .nav-links a:hover {
+      color: var(--color-primary);
+    }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+      /* linear-gradient: direction, color-start, color-end */
+      color: var(--color-white);
+      text-align: center;
+      padding: 5rem 2rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      /* clamp(min, preferred, max): fluid font that scales with viewport */
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 2rem; /* auto left/right centers the block */
+    }
+
+    /* --- BUTTON STYLES --- */
+    .btn {
+      display: inline-block;       /* allows padding without breaking text flow */
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--color-white);
+      color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background-color: transparent;
+      border-color: var(--color-white);
+      color: var(--color-white);
+    }
+
+    .btn-accent {
+      background-color: var(--color-accent);
+      color: var(--color-white);
+    }
+
+    .btn-accent:hover {
+      background-color: #059669;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    /* --- MAIN LAYOUT: CSS GRID ---
+       Grid gives you rows AND columns at the same time */
+    main {
+      max-width: 1100px;
+      margin: 3rem auto;           /* center the main container */
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr; /* two columns: content = 2 parts, sidebar = 1 part */
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* --- SECTIONS --- */
+    section {
+      background-color: var(--color-white);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    section h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid var(--color-primary); /* decorative underline */
+      color: var(--color-dark);
+    }
+
+    section h3 {
+      font-size: 1.1rem;
+      margin: 1.2rem 0 0.5rem;
+      color: var(--color-primary);
+    }
+
+    section p {
+      color: var(--color-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    /* --- TYPOGRAPHY DEMO --- */
+    .text-demo blockquote {
+      border-left: 4px solid var(--color-primary);
+      padding-left: 1rem;
+      font-style: italic;
+      color: var(--color-muted);
+      margin: 1rem 0;
+    }
+
+    .text-demo code {
+      background-color: #e2e8f0;
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      color: #be123c;
+    }
+
+    /* --- LISTS --- */
+    .list-demo ul,
+    .list-demo ol {
+      padding-left: 1.5rem;        /* indent the list */
+      margin-bottom: 1rem;
+    }
+
+    .list-demo li {
+      margin-bottom: 0.4rem;
+      color: var(--color-muted);
+    }
+
+    /* Custom list style: replace bullets with a CSS shape */
+    .list-demo ul.custom-bullets {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .list-demo ul.custom-bullets li::before {
+      /* ::before is a pseudo-element — inserts content before each <li> */
+      content: "▸ ";
+      color: var(--color-accent);
+      font-weight: bold;
+    }
+
+    /* --- TABLE --- */
+    .table-wrapper {
+      overflow-x: auto;            /* scroll sideways on small screens */
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;   /* remove gaps between cell borders */
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      text-align: left;
+      padding: 0.75rem 1rem;
+    }
+
+    td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      color: var(--color-muted);
+    }
+
+    /* :nth-child pseudo-class: target every other row */
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    tr:hover td {
+      background-color: #eff6ff;   /* highlight row on hover */
+    }
+
+    /* --- CARD GRID (nested grid inside a section) --- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      /* repeat(auto-fit, minmax(180px, 1fr)):
+         auto-fit = as many columns as fit
+         minmax(180px, 1fr) = each column is at least 180px, share remaining space equally */
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px); /* lift the card up on hover */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card h4 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    /* --- FORM STYLES --- */
+    .form-group {
+      display: flex;
+      flex-direction: column;      /* stack label above input */
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--color-dark);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select,
+    textarea {
+      padding: 0.6rem 0.9rem;
+      border: 2px solid #cbd5e1;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    /* :focus pseudo-class: styles when the element is selected/clicked */
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;               /* remove default blue outline */
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* soft glow */
+    }
+
+    textarea {
+      resize: vertical;            /* allow vertical resize only */
+      min-height: 100px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .checkbox-group input[type="checkbox"],
+    .checkbox-group input[type="radio"] {
+      width: 1rem;
+      height: 1rem;
+      accent-color: var(--color-primary); /* colors the checkbox/radio tick */
+    }
+
+    .checkbox-group label {
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    /* --- IMAGE SECTION --- */
+    .image-demo img {
+      width: 100%;
+      border-radius: var(--radius);
+      display: block;
+      object-fit: cover;           /* crop image to fill container without stretching */
+    }
+
+    .image-caption {
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      text-align: center;
+      margin-top: 0.4rem;
+    }
+
+    /* --- COLOR SWATCHES --- */
+    .swatches {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .swatch {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;          /* circle shape */
+      box-shadow: var(--shadow);
+      position: relative;          /* needed for absolute child positioning */
+    }
+
+    /* --- CSS POSITIONING ---
+       static (default), relative, absolute, fixed, sticky */
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: var(--color-dark);
+      color: white;
+      font-size: 0.6rem;
+      padding: 2px 5px;
+      border-radius: 999px;
+    }
+
+    /* --- SIDEBAR --- */
+    .sidebar > * {
+      /* > * targets DIRECT children only */
+      background-color: var(--color-white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar h3 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: var(--color-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      background-color: #eff6ff;
+      color: var(--color-primary);
+      border: 1px solid #bfdbfe;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;        /* pill shape */
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 0.3rem;
+      color: var(--color-muted);
+    }
+
+    /* Progress bar built with pure CSS */
+    .progress-bar {
+      background-color: #e2e8f0;
+      border-radius: 999px;
+      height: 10px;
+      margin-bottom: 0.85rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    }
+
+    /* Width is set inline on the element using style="width: X%" */
+
+    /* --- ALERT / CALLOUT BOXES --- */
+    .alert {
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius);
+      border-left: 5px solid;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .alert-info    { background: #eff6ff; border-color: var(--color-primary); color: #1e40af; }
+    .alert-success { background: #f0fdf4; border-color: var(--color-accent);  color: #065f46; }
+    .alert-warning { background: #fffbeb; border-color: #f59e0b;              color: #92400e; }
+    .alert-danger  { background: #fff1f2; border-color: #ef4444;              color: #991b1b; }
+
+    /* --- FOOTER --- */
+    footer {
+      background-color: var(--color-dark);
+      color: #94a3b8;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+
+    footer a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ============================================================
+       RESPONSIVE DESIGN — @media queries
+       Apply styles only when the screen matches a condition
+       ============================================================ */
+    @media (max-width: 768px) {
+      /* Tablet / Mobile: switch to single-column layout */
+      main {
+        grid-template-columns: 1fr; /* one column instead of two */
+      }
+
+      .hero {
+        padding: 3rem 1.5rem;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       HEADER & NAVIGATION
+       <header> is a semantic element — it signals to browsers and
+       screen readers that this is the top of the page.
+       ============================================================ -->
+  <header>
+    <nav>
+      <!-- Anchor tag <a> creates a hyperlink. href="#" means "stay on this page" -->
+      <a href="#" class="nav-logo">DevPractice</a>
+
+      <!-- <ul> = unordered list, <li> = list item -->
+      <ul class="nav-links">
+        <li><a href="#typography">Text</a></li>
+        <li><a href="#lists">Lists</a></li>
+        <li><a href="#table">Table</a></li>
+        <li><a href="#cards">Cards</a></li>
+        <li><a href="#form">Form</a></li>
+        <li><a href="#colors">Colors</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       HERO SECTION
+       A large introductory banner. Uses <section> which is a
+       semantic block element (like a named chapter in your page).
+       ============================================================ -->
+  <section class="hero">
+    <!-- <h1> is the most important heading — only one per page -->
+    <h1>HTML &amp; CSS Practice Page</h1>
+    <!-- &amp; is an HTML entity for the & character -->
+
+    <p>
+      Every element on this page has comments explaining how it works.
+      Read the source code alongside what you see in the browser.
+    </p>
+
+    <!-- Buttons as anchor tags styled to look like buttons -->
+    <a href="#form" class="btn btn-primary">Try the Form</a>
+    &nbsp; <!-- non-breaking space for a small gap between inline elements -->
+    <a href="#cards" class="btn btn-outline">See Cards</a>
+  </section>
+
+  <!-- ============================================================
+       MAIN CONTENT + SIDEBAR
+       <main> wraps the primary content. Here it's a CSS Grid
+       container splitting into a content column and a sidebar.
+       ============================================================ -->
+  <main>
+
+    <!-- LEFT COLUMN: stacked sections -->
+    <div class="content">
+
+      <!-- TYPOGRAPHY SECTION -->
+      <section class="text-demo" id="typography">
+        <h2>Typography</h2>
+
+        <!-- Headings h1-h6: h1 largest, h6 smallest -->
+        <h3>Headings h1 to h6</h3>
+        <h1 style="font-size:1.8rem; margin-bottom:0.2rem;">h1 - Page Title</h1>
+        <!-- inline style: one-off CSS written directly on the element -->
+        <h2 style="font-size:1.5rem; border:none; padding:0; margin-bottom:0.2rem;">h2 - Section</h2>
+        <h3 style="margin:0 0 0.2rem;">h3 - Subsection</h3>
+        <h4 style="margin:0 0 0.2rem;">h4 - Sub-subsection</h4>
+        <h5 style="margin:0 0 0.2rem; font-size:0.9rem;">h5 - Minor heading</h5>
+        <h6 style="margin:0 0 1rem; font-size:0.8rem; color:#94a3b8;">h6 - Smallest heading</h6>
+
+        <h3>Inline Text Elements</h3>
+        <p>
+          <!-- <strong> = bold (semantic: important) -->
+          <strong>Bold text</strong> using &lt;strong&gt; &nbsp;|&nbsp;
+          <!-- <em> = italic (semantic: emphasis) -->
+          <em>Italic text</em> using &lt;em&gt; &nbsp;|&nbsp;
+          <!-- <mark> = highlight -->
+          <mark>Highlighted</mark> using &lt;mark&gt; &nbsp;|&nbsp;
+          <!-- <del> / <ins> = strikethrough / underline -->
+          <del>Deleted</del> &amp; <ins>Inserted</ins> &nbsp;|&nbsp;
+          <!-- <sup> / <sub> = superscript / subscript -->
+          E=mc<sup>2</sup> &nbsp; H<sub>2</sub>O &nbsp;|&nbsp;
+          <!-- <abbr> = abbreviation, title shows on hover -->
+          <abbr title="HyperText Markup Language">HTML</abbr>
+        </p>
+
+        <h3>Blockquote</h3>
+        <!-- <blockquote> is for longer quoted passages -->
+        <blockquote>
+          "First, solve the problem. Then, write the code."
+          <!-- <cite> gives credit to the source -->
+          - <cite>John Johnson</cite>
+        </blockquote>
+
+        <h3>Inline Code</h3>
+        <p>
+          Use <code>display: flex</code> to enable Flexbox,
+          or <code>display: grid</code> for CSS Grid.
+        </p>
+      </section>
+
+      <!-- LISTS SECTION -->
+      <section class="list-demo" id="lists">
+        <h2>Lists</h2>
+
+        <h3>Unordered List &lt;ul&gt; - bullet points</h3>
+        <ul>
+          <li>HTML structures the content</li>
+          <li>CSS styles the appearance</li>
+          <li>JavaScript adds interactivity</li>
+        </ul>
+
+        <h3>Ordered List &lt;ol&gt; - numbered steps</h3>
+        <ol>
+          <li>Open your code editor</li>
+          <li>Create an <code>index.html</code> file</li>
+          <li>Add a <code>&lt;!DOCTYPE html&gt;</code> declaration</li>
+          <li>Build your page</li>
+        </ol>
+
+        <h3>Custom Bullet List (CSS ::before)</h3>
+        <ul class="custom-bullets">
+          <li>Flexbox - one-dimensional layout</li>
+          <li>Grid - two-dimensional layout</li>
+          <li>Position - absolute, relative, fixed, sticky</li>
+        </ul>
+
+        <h3>Description List &lt;dl&gt;</h3>
+        <!-- <dl> = definition list, <dt> = term, <dd> = description -->
+        <dl>
+          <dt><strong>Element</strong></dt>
+          <dd>An HTML tag and its content, e.g. <code>&lt;p&gt;Hello&lt;/p&gt;</code></dd>
+          <dt><strong>Attribute</strong></dt>
+          <dd>Extra info on an element, written inside the opening tag</dd>
+          <dt><strong>Selector</strong></dt>
+          <dd>CSS pattern that targets HTML elements to style</dd>
+        </dl>
+      </section>
+
+      <!-- TABLE SECTION -->
+      <section id="table">
+        <h2>Table</h2>
+        <p>Tables are for structured, tabular data — not for page layout.</p>
+
+        <div class="table-wrapper">
+          <!-- <table> wraps the whole table
+               <thead> = header rows, <tbody> = body rows
+               <tr> = table row, <th> = header cell, <td> = data cell -->
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Value</th>
+                <th>What it does</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>display: flex</code></td>
+                <td>Flexbox</td>
+                <td>One-axis layout (row or column)</td>
+              </tr>
+              <tr>
+                <td><code>display: grid</code></td>
+                <td>Grid</td>
+                <td>Two-axis layout (rows and columns)</td>
+              </tr>
+              <tr>
+                <td><code>position: relative</code></td>
+                <td>Relative</td>
+                <td>Offset from its normal position</td>
+              </tr>
+              <tr>
+                <td><code>position: absolute</code></td>
+                <td>Absolute</td>
+                <td>Placed relative to nearest positioned ancestor</td>
+              </tr>
+              <tr>
+                <td><code>position: fixed</code></td>
+                <td>Fixed</td>
+                <td>Stays in place when you scroll</td>
+              </tr>
+              <tr>
+                <td><code>position: sticky</code></td>
+                <td>Sticky</td>
+                <td>Scrolls normally until it hits a threshold, then sticks</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CARDS SECTION -->
+      <section id="cards">
+        <h2>Card Grid (CSS Grid + auto-fit)</h2>
+        <p>
+          The grid uses <code>repeat(auto-fit, minmax(180px, 1fr))</code> to
+          automatically wrap cards into columns — no media queries needed.
+        </p>
+
+        <div class="card-grid">
+          <!-- Each .card is a grid cell -->
+          <div class="card">
+            <div class="card-icon">&#127959;</div>
+            <h4>HTML</h4>
+            <p>Structure &amp; content</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">&#127912;</div>
+            <h4>CSS</h4>
+            <p>Styling &amp; layout</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">&#9889;</div>
+            <h4>JavaScript</h4>
+            <p>Behaviour &amp; logic</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">&#128241;</div>
+            <h4>Responsive</h4>
+            <p>Works on all screens</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ALERT / CALLOUT BOXES -->
+      <section id="alerts">
+        <h2>Alert Boxes</h2>
+        <p>Styled purely with CSS classes — same HTML element, different class = different look.</p>
+
+        <div class="alert alert-info">
+          <strong>Info:</strong> This is an informational message.
+        </div>
+        <div class="alert alert-success">
+          <strong>Success:</strong> Your changes have been saved.
+        </div>
+        <div class="alert alert-warning">
+          <strong>Warning:</strong> This action cannot be easily undone.
+        </div>
+        <div class="alert alert-danger">
+          <strong>Error:</strong> Something went wrong. Please try again.
+        </div>
+      </section>
+
+      <!-- FORM SECTION -->
+      <section id="form">
+        <h2>Form Elements</h2>
+        <p>
+          Forms collect user input. Each <code>&lt;input&gt;</code> should have a
+          <code>&lt;label&gt;</code> — the <code>for</code> attribute matches
+          the input's <code>id</code> so clicking the label focuses the input.
+        </p>
+
+        <!-- action="#" sends the form back to itself (no server here) -->
+        <!-- method="post" sends data in the request body (vs "get" which appends to URL) -->
+        <form action="#" method="post">
+
+          <!-- Text input -->
+          <div class="form-group">
+            <label for="fullname">Full Name</label>
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              placeholder="Jane Smith"
+              required
+            />
+            <!-- required: browser validates this field before submitting -->
+          </div>
+
+          <!-- Email input — browser validates email format -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="jane@example.com"
+              required
+            />
+          </div>
+
+          <!-- Password input — hides characters -->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              minlength="8"
+            />
+            <!-- minlength: browser enforces minimum character count -->
+          </div>
+
+          <!-- Select dropdown -->
+          <div class="form-group">
+            <label for="skill-level">Skill Level</label>
+            <select id="skill-level" name="skill-level">
+              <!-- <option value="...">Label</option> — value is sent, label is shown -->
+              <option value="">-- Choose one --</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+
+          <!-- Textarea — multiline text input -->
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              placeholder="Write your message here..."
+            ></textarea>
+            <!-- Note: textarea uses a closing tag, not self-closing -->
+          </div>
+
+          <!-- Checkboxes — multiple can be selected -->
+          <div class="form-group">
+            <label>Interests (check all that apply)</label>
+            <div class="checkbox-group">
+              <input type="checkbox" id="interest-html" name="interest" value="html" />
+              <label for="interest-html">HTML</label>
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="interest-css" name="interest" value="css" checked />
+              <!-- checked: pre-selects this checkbox -->
+              <label for="interest-css">CSS</label>
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="interest-js" name="interest" value="js" />
+              <label for="interest-js">JavaScript</label>
+            </div>
+          </div>
+
+          <!-- Radio buttons — only one can be selected at a time
+               They share the same name="..." to form a group -->
+          <div class="form-group">
+            <label>Contact Preference</label>
+            <div class="checkbox-group">
+              <input type="radio" id="pref-email" name="contact-pref" value="email" checked />
+              <label for="pref-email">Email</label>
+            </div>
+            <div class="checkbox-group">
+              <input type="radio" id="pref-phone" name="contact-pref" value="phone" />
+              <label for="pref-phone">Phone</label>
+            </div>
+          </div>
+
+          <!-- Range slider input -->
+          <div class="form-group">
+            <label for="experience">Years of Experience</label>
+            <input
+              type="range"
+              id="experience"
+              name="experience"
+              min="0"
+              max="20"
+              value="3"
+              style="width:100%; accent-color: var(--color-primary);"
+            />
+          </div>
+
+          <!-- Submit and Reset buttons -->
+          <!-- type="submit" sends the form, type="reset" clears all fields -->
+          <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <button type="submit" class="btn btn-accent">Submit Form</button>
+            <button type="reset" class="btn btn-outline">Reset</button>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- IMAGES SECTION -->
+      <section class="image-demo" id="images">
+        <h2>Images</h2>
+        <p>
+          The <code>alt</code> attribute describes the image for screen readers and
+          displays when the image fails to load. Always include it.
+        </p>
+
+        <!-- Using a placeholder image service for demo purposes -->
+        <img
+          src="https://picsum.photos/seed/devpractice/800/300"
+          alt="A random demo placeholder image"
+          width="800"
+          height="300"
+          loading="lazy"
+        />
+        <!-- loading="lazy": image only downloads when near the viewport — improves performance -->
+        <p class="image-caption">
+          Figure 1 — Placeholder image from picsum.photos (800 x 300)
+        </p>
+      </section>
+
+    </div>
+    <!-- END .content -->
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <!-- <aside> = supplementary content, not the main article -->
+
+      <!-- TAG CLOUD -->
+      <div>
+        <h3>Topics Covered</h3>
+        <div class="tag-list">
+          <!-- Tags are just styled <span> elements -->
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">Flexbox</span>
+          <span class="tag">Grid</span>
+          <span class="tag">Forms</span>
+          <span class="tag">Typography</span>
+          <span class="tag">Tables</span>
+          <span class="tag">Responsive</span>
+          <span class="tag">Variables</span>
+          <span class="tag">Selectors</span>
+        </div>
+      </div>
+
+      <!-- SKILL PROGRESS BARS -->
+      <div>
+        <h3>Skill Progress</h3>
+
+        <!-- Progress bar: the fill width is set with inline style -->
+        <div class="progress-label">
+          <span>HTML</span><span>85%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 85%;"></div>
+        </div>
+
+        <div class="progress-label">
+          <span>CSS</span><span>70%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 70%;"></div>
+        </div>
+
+        <div class="progress-label">
+          <span>Flexbox</span><span>60%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 60%;"></div>
+        </div>
+
+        <div class="progress-label">
+          <span>Grid</span><span>45%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 45%;"></div>
+        </div>
+      </div>
+
+      <!-- COLOR SWATCHES -->
+      <div id="colors">
+        <h3>Color Palette</h3>
+        <p style="font-size:0.85rem; color:var(--color-muted); margin-bottom:0.75rem;">
+          Defined as CSS custom properties on <code>:root</code>
+        </p>
+        <div class="swatches">
+          <!-- position:relative on .swatch lets .badge use position:absolute -->
+          <div class="swatch" style="background: #3b82f6;" title="#3b82f6">
+            <span class="badge">--primary</span>
+          </div>
+          <div class="swatch" style="background: #10b981;" title="#10b981">
+            <span class="badge">--accent</span>
+          </div>
+          <div class="swatch" style="background: #1e293b;" title="#1e293b">
+            <span class="badge">--dark</span>
+          </div>
+          <div class="swatch" style="background: #f1f5f9; border:1px solid #e2e8f0;" title="#f1f5f9">
+            <span class="badge">--light</span>
+          </div>
+          <div class="swatch" style="background: #64748b;" title="#64748b">
+            <span class="badge">--muted</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOX MODEL EXPLAINER -->
+      <div>
+        <h3>The Box Model</h3>
+        <p style="font-size:0.85rem; color:var(--color-muted);">
+          Every element is a box with four layers:
+        </p>
+        <!-- Nested divs visually represent margin > border > padding > content -->
+        <div style="background:#fef3c7; padding:10px; border-radius:6px; font-size:0.8rem; text-align:center; color:#92400e; margin-top:0.75rem;">
+          margin
+          <div style="background:#fde68a; padding:10px; margin-top:6px; border-radius:4px;">
+            border
+            <div style="background:#fbbf24; padding:10px; margin-top:6px; border-radius:4px;">
+              padding
+              <div style="background:#f59e0b; padding:8px; margin-top:6px; border-radius:4px; color:white; font-weight:700;">
+                content
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS SPECIFICITY CHEATSHEET -->
+      <div>
+        <h3>CSS Specificity</h3>
+        <p style="font-size:0.85rem; color:var(--color-muted); margin-bottom:0.5rem;">
+          When selectors conflict, higher specificity wins:
+        </p>
+        <table style="font-size:0.8rem; width:100%; border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th style="background:var(--color-primary);color:white;padding:0.4rem 0.6rem;">Selector</th>
+              <th style="background:var(--color-primary);color:white;padding:0.4rem 0.6rem;">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:0.35rem 0.6rem;border-bottom:1px solid #e2e8f0;"><code>!important</code></td><td style="padding:0.35rem 0.6rem;border-bottom:1px solid #e2e8f0;">Overrides all</td></tr>
+            <tr><td style="padding:0.35rem 0.6rem;border-bottom:1px solid #e2e8f0;"><code>style=""</code></td><td style="padding:0.35rem 0.6rem;border-bottom:1px solid #e2e8f0;">1,0,0,0</td></tr>
+            <tr><td style="padding:0.35rem 0.6rem;border-bottom:1px solid #e2e8f0;"><code>#id</code></td><td style="padding:0.35rem 0.6rem;border-bottom:1px solid #e2e8f0;">0,1,0,0</td></tr>
+            <tr><td style="padding:0.35rem 0.6rem;border-bottom:1px solid #e2e8f0;"><code>.class</code></td><td style="padding:0.35rem 0.6rem;border-bottom:1px solid #e2e8f0;">0,0,1,0</td></tr>
+            <tr><td style="padding:0.35rem 0.6rem;"><code>tag</code></td><td style="padding:0.35rem 0.6rem;">0,0,0,1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </aside>
+    <!-- END .sidebar -->
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       <footer> is a semantic element for the bottom of the page.
+       Good for copyright, links, and contact info.
+       ============================================================ -->
+  <footer>
+    <p>
+      Built with plain HTML &amp; CSS &mdash; no frameworks, no JavaScript.
+      <!-- &mdash; = em dash, &amp; = &, &copy; = copyright symbol -->
+    </p>
+    <p style="margin-top: 0.5rem;">
+      &copy; 2026 &nbsp;|&nbsp;
+      <a href="#typography">Back to top &uarr;</a>
+      <!-- &uarr; = up arrow HTML entity -->
+    </p>
+  </footer>
+
+</body>
+</html>

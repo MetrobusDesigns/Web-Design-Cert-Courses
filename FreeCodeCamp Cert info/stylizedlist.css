@@ -1,0 +1,21 @@
+a {
+  text-decoration: none;
+  color: steelblue;
+}
+
+a:visited {
+  color: purple;
+}
+
+a:hover {
+  color: darkorange;
+}
+
+a:focus {
+  outline: 2px solid darkorange;
+  outline-offset: 2px;
+}
+
+a:active {
+  color: crimson;
+}
